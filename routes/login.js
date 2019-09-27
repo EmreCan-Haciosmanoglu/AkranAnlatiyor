@@ -36,11 +36,11 @@ passport.use(new LocalStrategy((username, password, done) => {
   });
 }));
 
-router.post('/login', passport.authenticate('local', { failureRedirect: "/users", failureFlash: "Invalid username or password" }), (req, res) => {
+router.post('/', passport.authenticate('local', { failureRedirect: "/login", failureFlash: "Invalid username or password" }), (req, res) => {
   if (req.body.Redirect)
     return res.redirect('' + req.body.Redirect);
   else
-    return res.redirect('/home')
+    return res.redirect('/');
 });
 
 module.exports = router;

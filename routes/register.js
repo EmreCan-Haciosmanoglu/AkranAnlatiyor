@@ -5,11 +5,11 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 
-router.get('/', (req, res, next) => {
+router.get('/', ensureNotAuthenticated, (req, res, next) => {
     return res.render('register', { data: 'This page is for registration!' });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', ensureNotAuthenticated, (req, res, next) => {
     const {
         email,
         password1,
@@ -74,4 +74,12 @@ router.post('/', (req, res, next) => {
         });
     });
 });
+
+function ensureNotAuthenticated(req, res, next) {
+    if (!req.isAuthenticated())
+        return next();
+
+    return res.redirect('/');
+}
+
 module.exports = router;

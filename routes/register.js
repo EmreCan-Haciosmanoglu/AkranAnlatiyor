@@ -11,6 +11,8 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
             'RegisterTitle': 'Student Register',
             'btnRegister': 'Register',
             'LinkToLoginText': 'Back to Login',
+            'PlaceholderFirstName': 'First Name',
+            'PlaceholderLastName': 'Last Name',
             'PlaceholderUsername': 'Username',
             'PlaceholderEmail': 'Email',
             'PlaceholderPassword': 'Password',

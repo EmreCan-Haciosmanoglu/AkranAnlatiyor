@@ -29,8 +29,6 @@ const userShema = new Schema ({
     }
 });
 
-var User = module.exports = mongoose.model('user', userShema);
-
 module.exports.getUserById = (id, callback) => {
     User.findById(id, callback);
 };
@@ -45,3 +43,5 @@ module.exports.comparePassword = (cPassport, hash, callback) => {
         callback(null,isMatch);
     });
 };
+
+var User = module.exports = mongoose.model('user', userShema);

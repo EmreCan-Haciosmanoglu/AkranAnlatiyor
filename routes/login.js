@@ -13,7 +13,9 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
       'LoginTitle': 'Student Login',
       'btnLogin': 'Login',
       'Forgot': 'Forgot username or password?',
-      'NoAccount': 'Don\'t have an account?'
+      'NoAccount': 'Don\'t have an account?',
+      'PlaceholderUsername': 'Username',
+      'PlaceholderPassword': 'Password'
     });
 });
 

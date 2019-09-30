@@ -8,7 +8,15 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
-  return res.render('login', { data: 'This page is for loging in!' });
+  return res.render('login',
+    {
+      'LoginTitle': 'Student Login',
+      'btnLogin': 'Login',
+      'Forgot': 'Forgot username or password?',
+      'NoAccount': 'Don\'t have an account?',
+      'PlaceholderUsername': 'Username',
+      'PlaceholderPassword': 'Password'
+    });
 });
 
 passport.serializeUser((user, done) => {

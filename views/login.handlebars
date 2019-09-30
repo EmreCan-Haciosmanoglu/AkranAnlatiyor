@@ -4,10 +4,10 @@
             <div class="login100-pic js-tilt" data-tilt>
                 <img src="/images/aguLogo.png" alt="Agu Logo">
             </div>
-            <span class="login100-form-title">
-                {{LoginTitle}}
-            </span>
-            <form action="/login" method="POST">
+            <form class="login100-form validate-form" action="/login" method="POST">
+                <span class="login100-form-title">
+                    {{LoginTitle}}
+                </span>
                 {{#if Redirect}}
                 <input style="display: none;" name="Redirect" value="{{Redirect}}" />
                 {{/if}}

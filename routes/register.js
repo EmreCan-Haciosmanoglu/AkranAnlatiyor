@@ -6,7 +6,18 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
-    return res.render('register', { data: 'This page is for registration!' });
+    return res.render('register',
+        {
+            'RegisterTitle': 'Student Register',
+            'btnRegister': 'Register',
+            'LinkToLoginText': 'Back to Login',
+            'PlaceholderFirstName': 'First Name',
+            'PlaceholderLastName': 'Last Name',
+            'PlaceholderUsername': 'Username',
+            'PlaceholderEmail': 'Email',
+            'PlaceholderPassword': 'Password',
+            'PlaceholderConfirmPassword': 'Confirm Password'
+        });
 });
 
 router.post('/', ensureNotAuthenticated, (req, res, next) => {

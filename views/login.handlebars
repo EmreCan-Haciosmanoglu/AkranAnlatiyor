@@ -12,14 +12,14 @@
                 <input style="display: none;" name="Redirect" value="{{Redirect}}" />
                 {{/if}}
                 <div class="wrap-input100">
-                    <input class="input100" type="text" name="username" placeholder="{{PlaceholderUsername}}" {{#if Username}}value="{{Username}}">
+                    <input class="input100" type="text" name="username" placeholder="{{PlaceholderUsername}}" {{#if Username}}value="{{Username}}{{/if}}">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </span>
                 </div>
                 <div class="wrap-input100">
-                    <input class="input100" type="password" name="password" placeholder="{{PlaceholderPassword}}" {{#if Password}}value="{{Password}}">
+                    <input class="input100" type="password" name="password" placeholder="{{PlaceholderPassword}}" {{#if Password}}value="{{Password}}{{/if}}">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
                         <i class="fa fa-lock" aria-hidden="true"></i>

@@ -18,6 +18,7 @@ var registerRouter = require('./routes/register');
 var adminRouter = require('./routes/admin');
 var error404Router = require('./routes/error404');
 var resetRouter = require('./routes/reset');
+var forgotRouter = require('./routes/forgot');
 
 var app = express();
 
@@ -75,6 +76,7 @@ app.use('/register', registerRouter);
 app.use('/administrator', adminRouter);
 app.use('/404', error404Router);
 app.use('/reset', resetRouter);
+app.use('/forgot', forgotRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

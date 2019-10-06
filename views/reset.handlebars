@@ -9,6 +9,7 @@
                     {{ResetTitle}}
                 </span>
                 <form action="/reset" method="POST">
+                    <input style="display: none;" name="Redirect" value="{{Token}}" />
                     <div class="wrap-input100">
                         <input class="input100" type="password" name="password1"
                             placeholder="{{PlaceholderPassword}}" />
@@ -26,8 +27,7 @@
                         </span>
                     </div>
                     <div class="wrap-input100">
-                        <input class="input100" type="text" name="password2"
-                            placeholder="{{PlaceholderPIN}}" />
+                        <input class="input100" type="text" name="password2" placeholder="{{PlaceholderPIN}}" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>

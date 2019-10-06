@@ -4,36 +4,40 @@
             <div class="login100-pic js-tilt" data-tilt>
                 <img src="/images/aguLogo.png" alt="Agu Logo">
             </div>
-            <form class="login100-form validate-form" action="/login" method="POST">
-                <span class="login100-form-title">
-                    {{LoginTitle}}
-                </span>
-                {{#if Redirect}}
-                <input style="display: none;" name="Redirect" value="{{Redirect}}" />
-                {{/if}}
-                <div class="wrap-input100">
-                    <input class="input100" type="text" name="username" placeholder="{{PlaceholderUsername}}" {{#if Username}}value="{{Username}}{{/if}}">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+            <div class="login100-form validate-form">
+                <form action="/login" method="POST">
+                    <span class="login100-form-title">
+                        {{LoginTitle}}
                     </span>
-                </div>
-                <div class="wrap-input100">
-                    <input class="input100" type="password" name="password" placeholder="{{PlaceholderPassword}}" {{#if Password}}value="{{Password}}{{/if}}">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" type="submit">
-                        {{btnLogin}}
-                    </button>
-                </div>
+                    {{#if Redirect}}
+                    <input style="display: none;" name="Redirect" value="{{Redirect}}" />
+                    {{/if}}
+                    <div class="wrap-input100">
+                        <input class="input100" type="text" name="username" placeholder="{{PlaceholderUsername}}"
+                            {{#if Username}}value="{{Username}}" {{/if}}>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100">
+                        <input class="input100" type="password" name="password" placeholder="{{PlaceholderPassword}}"
+                            {{#if Password}}value="{{Password}}" {{/if}}>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
+                            {{btnLogin}}
+                        </button>
+                    </div>
+                </form>
                 <div class="text-center p-t-12">
-                    <a class="txt2" href="#">
-                        {{Forgot}}
-                    </a>
+                    <form action="/login/forgotpassword" method="POST">
+                        <input class="test" type="submit" value="{{Forgot}}" />
+                    </form>
                 </div>
                 <div class="text-center p-t-136">
                     <a class="txt2" href="/register">
@@ -41,7 +45,7 @@
                         <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

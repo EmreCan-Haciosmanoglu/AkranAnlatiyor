@@ -60,8 +60,8 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
     if (!user) {
       return res.redirect(
         '/login?LoginError=' + encodeURIComponent('Invalid username or password') +
-        (req.body.username? '&Username=' + encodeURIComponent(req.body.username):'')+
-        (req.body.password? '&Password=' + encodeURIComponent(req.body.password):'')
+        (req.body.username ? '&Username=' + encodeURIComponent(req.body.username) : '') +
+        (req.body.password ? '&Password=' + encodeURIComponent(req.body.password) : '')
       );
     }
     req.logIn(user, function (err) {
@@ -73,13 +73,6 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
     });
   })(req, res, next);
 });
-/*
-router.post('/', ensureNotAuthenticated, passport.authenticate('local', { failureRedirect: "/login", failureFlash: "Invalid username or password" }), (req, res) => {
-  if (req.body.Redirect)
-    return res.redirect('' + req.body.Redirect);
-  else
-    return res.redirect('/');
-});*/
 
 function ensureNotAuthenticated(req, res, next) {
   if (!req.isAuthenticated())

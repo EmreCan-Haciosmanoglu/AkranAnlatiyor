@@ -7,7 +7,7 @@ const User = require('../models/User');
 const Link = require('../models/PasswordReset');
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
-    const token = req.query.Token;
+    const token = decodeURIComponent(req.query.Token);
     if (!token || token == "")
         return res.redirect('/login');
 
@@ -57,21 +57,19 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
                 + '?Error=' + encodeURIComponent(errors[0].msg)
                 + '&Token=' + encodeURIComponent(token)
             );
-        bcrypt.hash(PIN, 10).then((pinHash) => {
-            Link.findOne({ token: token, pin: pinHash }, (err, result) => {
-                if (err)
-                    return res.redirect('/login');
-                if (!result)
-                    return res.redirect('/login');
-                if (result.isReseted)
-                    return res.redirect('/login');
-                bcrypt.hash(password1, 10).then((passwordHash) => {
-                    User.findOne({ email: result.email }, (err, user) => {
-                        user.password = passwordHash;
-                        user.save();
-                        result.isReseted = true;
-                        result.save();
-                    });
+        Link.findOne({ token: token, pin: PIN }, (err, result) => {
+            if (err) 
+                return res.redirect('/login');
+            if (!result) 
+                return res.redirect('/login');
+            if (result.isReseted)
+                return res.redirect('/login');
+            bcrypt.hash(password1, 10).then((passwordHash) => {
+                User.findOne({ email: result.email }, (err, user) => {
+                    user.password = passwordHash;
+                    user.save();
+                    result.isReseted = true;
+                    result.save();
                 });
             });
         });

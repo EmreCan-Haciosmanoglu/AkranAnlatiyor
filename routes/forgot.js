@@ -34,7 +34,7 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
             if (!user)
                 return res.redirect('/forgot');
 
-            const pin = Math.floor(Math.random() * 1000 + 1000);
+            const pin = (Number)(Math.floor(Math.random() * 8999 + 1000));
             bcrypt.hash('' + Date.now() + '' + SecretKey.Key + '' + pin + '' + email, 10).then((token) => {
                 link = new Link({
                     email: email,
@@ -46,7 +46,7 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
                 link.save().then(async (data) => {
                     if (data) {
 
-                        const htmlBody = 'This is your link and pin to reset your password\n www.akrananlatiyor.com/reset?Token=' + token + ' \nPIN: ' + pin;
+                        const htmlBody = 'This is your link and pin to reset your password\n www.akrananlatiyor.com/reset?Token=' + encodeURIComponent(token) + ' \nPIN: ' + pin;
 
                         const transporter = nodemailer.createTransport({
                             host: 'smtp.gmail.com',
@@ -72,7 +72,6 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
                     console.error(error);
                     return res.redirect('/forgot');
                 });
-
             });
         });
     });

@@ -29,5 +29,5 @@ var Link = module.exports = mongoose.model('link', linkSchema);
 
 module.exports.getLinkByToken = (token, callback) => {
     var query = { token: token };
-    User.findOne(query, callback);
+    Link.findOne(query, callback);
 };

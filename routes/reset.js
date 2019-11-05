@@ -49,11 +49,11 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
 
         req.checkBody("PIN", "PIN is required").notEmpty();
         req.checkBody("password1", "Password is required").notEmpty();
-        req.checkBody("password2", "Passwords do not match").equals(req.body.password1);
+        req.checkBody("password2", "Passwords do not match").equals(password1);
 
         var errors = req.validationErrors();
         if (errors && errors.length > 0)
-            return res.redirect('/register'
+            return res.redirect('/reset'
                 + '?Error=' + encodeURIComponent(errors[0].msg)
                 + '&Token=' + encodeURIComponent(token)
             );

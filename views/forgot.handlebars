@@ -8,6 +8,16 @@
                 <span class="login100-form-title">
                     {{ForgotTitle}}
                 </span>
+                {{#if Error}}
+                <div class="login-error">
+                    {{Error}}
+                </div>
+                {{/if}}
+                {{#if Success}}
+                <div class="login-success">
+                    {{Success}}
+                </div>
+                {{/if}}
                 <form action="/forgot" method="POST">
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="email" placeholder="{{PlaceholderEmail}}" />

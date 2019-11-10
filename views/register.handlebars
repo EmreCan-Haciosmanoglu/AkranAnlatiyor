@@ -9,6 +9,11 @@
                 <span class="login100-form-title">
                     {{RegisterTitle}}
                 </span>
+                {{#if Error}}
+                <div class="login-error">
+                    {{Error}}
+                </div>
+                {{/if}}
                 <div class="wrap-input100">
                     <input class="input100" name="firstname" type="text" placeholder="{{PlaceholderFirstName}}"
                         {{#if Firstname}}value="{{Firstname}}" {{/if}} />

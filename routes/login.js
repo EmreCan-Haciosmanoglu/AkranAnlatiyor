@@ -33,6 +33,8 @@ passport.use(new LocalStrategy((username, password, done) => {
 }));
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
+  const { Success, Error, Redirect, Username} = req.query;
+
   var handlebarsData = {
     'LoginTitle': 'Student Login',
     'btnLogin': 'Login',
@@ -42,14 +44,14 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
     'PlaceholderPassword': 'Password'
   };
 
-  if (req.query.LoginError && req.query.LoginError != "")
-    handlebarsData['LoginError'] = decodeURIComponent(req.query.LoginError);
-  if (req.query.Redirect && req.query.Redirect != "")
-    handlebarsData['Redirect'] = decodeURIComponent(req.query.Redirect);
-  if (req.query.Username)
-    handlebarsData['Username'] = decodeURIComponent(req.query.Username);
-  if (req.query.Password)
-    handlebarsData['Password'] = decodeURIComponent(req.query.Password);
+  if (Success && Success != "")
+    handlebarsData['Success'] = decodeURIComponent(Success);
+  if (Error && Error != "")
+    handlebarsData['Error'] = decodeURIComponent(Error);
+  if (Redirect && Redirect != "")
+    handlebarsData['Redirect'] = decodeURIComponent(Redirect);
+  if (Username)
+    handlebarsData['Username'] = decodeURIComponent(Username);
 
   return res.render('login', handlebarsData);
 });
@@ -59,9 +61,8 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
     if (err) { return next(err); }
     if (!user) {
       return res.redirect(
-        '/login?LoginError=' + encodeURIComponent('Invalid username or password') +
-        (req.body.username ? '&Username=' + encodeURIComponent(req.body.username) : '') +
-        (req.body.password ? '&Password=' + encodeURIComponent(req.body.password) : '')
+        '/login?Error=' + encodeURIComponent('Invalid username or password') +
+        (req.body.username ? '&Username=' + encodeURIComponent(req.body.username) : '')
       );
     }
     req.logIn(user, function (err) {
@@ -78,7 +79,7 @@ function ensureNotAuthenticated(req, res, next) {
   if (!req.isAuthenticated())
     return next();
 
-  return res.redirect('/home');
+  return res.redirect('/');
 }
 
 module.exports = router;

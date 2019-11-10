@@ -12,6 +12,16 @@
                     {{#if Redirect}}
                     <input style="display: none;" name="Redirect" value="{{Redirect}}" />
                     {{/if}}
+                    {{#if Error}}
+                    <div class="login-error">
+                        {{Error}}
+                    </div>
+                    {{/if}}
+                    {{#if Success}}
+                    <div class="login-success">
+                        {{Success}}
+                    </div>
+                    {{/if}}
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="username" placeholder="{{PlaceholderUsername}}"
                             {{#if Username}}value="{{Username}}" {{/if}}>

@@ -8,6 +8,11 @@
                 <span class="login100-form-title">
                     {{ResetTitle}}
                 </span>
+                {{#if Error}}
+                <div class="login-error">
+                    {{Error}}
+                </div>
+                {{/if}}
                 <form action="/reset" method="POST">
                     <input style="display: none;" name="Token" value="{{Token}}" />
                     <div class="wrap-input100">

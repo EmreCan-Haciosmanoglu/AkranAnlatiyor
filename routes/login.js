@@ -68,9 +68,9 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       if (req.body.Redirect)
-        return res.redirect('' + req.body.Redirect);
+        return res.redirect('' + req.body.Redirect+ '?Success=' + encodeURIComponent('You have successfully logged in!'));
       else
-        return res.redirect('/');
+        return res.redirect('/?Success=' + encodeURIComponent('You have successfully logged in!'));
     });
   })(req, res, next);
 });

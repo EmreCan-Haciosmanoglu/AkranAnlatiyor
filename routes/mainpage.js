@@ -9,11 +9,16 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
         return res.render('senior', { data: 'This is a page for senior students who are looking for students to share information!' });
 });
 
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login?Success=' + encodeURIComponent('Successfully Loged out!'));
+});
+
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     return res.redirect('/login'
-        + '?LoginError=' + encodeURIComponent('You have to Login to see the page')
+        + '?Error=' + encodeURIComponent('You have to Login to see the page')
         + '&Redirect=' + encodeURIComponent(fullUrl)
     );
 }

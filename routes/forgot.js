@@ -10,6 +10,7 @@ const User = require('../models/User');
 const Link = require('../models/PasswordReset');
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
+    const { Error, Success } = req.query;
 
     var handlebarsData = {
         'ForgotTitle': 'Forgot Password?',
@@ -17,22 +18,28 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
         'btnForgot': 'Send',
         'BackToLogin': 'Go To Login Page',
     };
+
+    if (Success && Success != "")
+        handlebarsData['Success'] = decodeURIComponent(Success);
+    if (Error && Error != "")
+        handlebarsData['Error'] = decodeURIComponent(Error);
+
     return res.render('forgot', handlebarsData);
 });
 
 router.post('/', ensureNotAuthenticated, (req, res, next) => {
     const email = req.body.email;
-    Link.findOne({ email: email, isReseted: false }, (err, link) => {
-        if (err)
-            console.log(err);
+    Link.findOne({ email: email, isReseted: false }, (error, link) => {
+        if (error)
+            return res.redirect('/forgot?Error=' + encodeURIComponent(error));
         if (link)
-            return res.redirect('/forgot');
+            return res.redirect('/login?Error=' + encodeURIComponent('You already requested a reset. Please check your mailbox!'));
 
         User.findOne({ email: email }, (err, user) => {
             if (err)
-                console.log(err);
+                return res.redirect('/forgot?Error=' + encodeURIComponent(error));
             if (!user)
-                return res.redirect('/forgot');
+                return res.redirect('/forgot?Error=' + encodeURIComponent('Email couldn\'t found!'));
 
             const pin = (Number)(Math.floor(Math.random() * 8999 + 1000));
             bcrypt.hash('' + Date.now() + '' + SecretKey.Key + '' + pin + '' + email, 10).then((token) => {
@@ -66,27 +73,22 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
                         });
 
                         console.log('Message sent: %s', info.messageId);
-                        return res.redirect('/forgot');
+                        return res.redirect('/forgot?Success=' + encodeURIComponent('Check your mailbox!'));
                     }
                 }).catch((error) => {
                     console.error(error);
-                    return res.redirect('/forgot');
+                    return res.redirect('/forgot?Error=' + encodeURIComponent(error));
                 });
             });
         });
     });
-    //check database for email
-
-    //Create a token for reseting
-
-    //send an email to that email
 });
 
 function ensureNotAuthenticated(req, res, next) {
     if (!req.isAuthenticated())
         return next();
 
-    return res.redirect('/home');
+    return res.redirect('/');
 }
 
 module.exports = router;

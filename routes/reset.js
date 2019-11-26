@@ -7,15 +7,18 @@ const User = require('../models/User');
 const Link = require('../models/PasswordReset');
 
 router.get('/', ensureNotAuthenticated, (req, res, next) => {
+    const { Error } = req.query;
+    
+    if (!req.query.Token || req.query.Token == "")
+    return res.redirect('/login?Error=' + encodeURIComponent('No token is provided!'));
+    
     const token = decodeURIComponent(req.query.Token);
-    if (!token || token == "")
-        return res.redirect('/login');
 
-    Link.getLinkByToken(token, (err, link) => {
-        if (err)
-            return res.redirect('/login');
+    Link.getLinkByToken(token, (error, link) => {
+        if (error)
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
         if (!link)
-            return res.redirect('/login');
+            return res.redirect('/login?Error=' + encodeURIComponent('Unvalid token!'));
 
         var handlebarsData = {
             'ResetTitle': 'Reset Password',
@@ -26,6 +29,10 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
             'BackToLogin': 'Go To Login Page',
             'Token': token
         };
+
+        if (Error && Error != "")
+            handlebarsData['Error'] = decodeURIComponent(Error);
+
         return res.render('reset', handlebarsData);
     });
 });
@@ -33,17 +40,16 @@ router.get('/', ensureNotAuthenticated, (req, res, next) => {
 router.post('/', ensureNotAuthenticated, (req, res, next) => {
     const token = req.body.Token;
     if (!token || token == "")
-        return res.redirect('/login');
+        return res.redirect('/login?Error=' + encodeURIComponent('No token is provided!'));
 
     Link.getLinkByToken(token, (err, link) => {
-        if (err)
-            return res.redirect('/login');
+        if (error)
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
         if (!link)
-            return res.redirect('/login');
+            return res.redirect('/login?Error=' + encodeURIComponent('Unvalid token!'));
 
         const {
             password1,
-            password2,
             PIN
         } = req.body;
 
@@ -58,18 +64,20 @@ router.post('/', ensureNotAuthenticated, (req, res, next) => {
                 + '&Token=' + encodeURIComponent(token)
             );
         Link.findOne({ token: token, pin: PIN }, (err, result) => {
-            if (err) 
-                return res.redirect('/login');
-            if (!result) 
-                return res.redirect('/login');
+            if (error)
+                return res.redirect('/login?Error=' + encodeURIComponent(error));
+            if (!result)
+                return res.redirect('/login?Error=' + encodeURIComponent('Unvalid token!'));
             if (result.isReseted)
-                return res.redirect('/login');
+                return res.redirect('/login?Error=' + encodeURIComponent('Already resetted! Get new link!'));
+
             bcrypt.hash(password1, 10).then((passwordHash) => {
                 User.findOne({ email: result.email }, (err, user) => {
                     user.password = passwordHash;
                     user.save();
                     result.isReseted = true;
                     result.save();
+                    return res.redirect('/login?Success=' + encodeURIComponent('Password is resetted successfully!'));
                 });
             });
         });
@@ -80,7 +88,7 @@ function ensureNotAuthenticated(req, res, next) {
     if (!req.isAuthenticated())
         return next();
 
-    return res.redirect('/home');
+    return res.redirect('/');
 }
 
 module.exports = router;

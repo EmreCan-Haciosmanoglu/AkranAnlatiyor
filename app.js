@@ -12,13 +12,14 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 
 var loginRouter = require('./routes/login');
+var adminRouter = require('./routes/admin');
+var resetRouter = require('./routes/reset');
+var forgotRouter = require('./routes/forgot');
+var seniorRouter = require('./routes/senior');
 var profileRouter = require('./routes/profile');
 var mainpageRouter = require('./routes/mainpage');
 var registerRouter = require('./routes/register');
-var adminRouter = require('./routes/admin');
 var error404Router = require('./routes/error404');
-var resetRouter = require('./routes/reset');
-var forgotRouter = require('./routes/forgot');
 
 var app = express();
 
@@ -71,12 +72,13 @@ app.use((req, res, next) => {
 
 app.use('/', mainpageRouter);
 app.use('/login', loginRouter);
+app.use('/reset', resetRouter);
+app.use('/404', error404Router);
+app.use('/senior', seniorRouter);
+app.use('/forgot', forgotRouter);
 app.use('/profile', profileRouter);
 app.use('/register', registerRouter);
 app.use('/administrator', adminRouter);
-app.use('/404', error404Router);
-app.use('/reset', resetRouter);
-app.use('/forgot', forgotRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

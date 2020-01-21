@@ -465,3 +465,281 @@ iframe {
     opacity: 1;
   }
 }
+
+.sidenav-proparties {
+  text-align: center;
+  color: black;
+  padding-bottom: 4%;
+  font-size: 18px;
+}
+
+.sidenav-proparties:hover {
+  color: red;
+}
+
+.sidenav {
+  padding-top: 5%;
+  height: 100%;
+  width: 10%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(218, 218, 218);
+  overflow-x: hidden;
+  align-items: center;
+}
+
+.rightColumn {
+  padding-top: 5%;
+  height: 100%;
+  width: 10%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 90%;
+  background-color: rgb(218, 218, 218);
+  overflow-x: hidden;
+  align-items: center;
+}
+
+.sidenav a {
+  /*padding: 6px 8px 6px 16px;*/
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  text-align: center;
+}
+
+.sidenav a:hover {
+  color: chartreuse;
+  transition-duration: 200ms;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 75%;
+  height: 75%;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+
+
+#header {
+  box-sizing: border-box;
+  background: white;
+  padding: 10px 15px;
+  display: table;
+  width: 80%;
+  height: 160px;
+}
+
+
+/* Cancel meeting button */
+
+.cancelMeetingButton {
+  background-color: transparent;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.cancelMeetingButton:hover {
+  color: red;
+}
+
+.commentPendingMeetingButton {
+  background-color: transparent;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.commentPendingMeetingButton:hover {
+  color: green;
+}
+
+.cancelMeetingButton:hover {
+  color: red;
+}
+
+
+/* Add a black background color to the top navigation */
+
+.topnav {
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 100%;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+
+/* Style the links inside the navigation bar */
+
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+/* Change the color of links on hover */
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+  text-decoration: none;
+}
+
+
+/* Add a color to the active/current link */
+
+.topnav a.active {
+  background-color: rgb(207, 41, 41);
+  color: white;
+}
+
+
+/* Right-aligned section inside the top navigation */
+
+.topnav-right {
+  text-align: center;
+  float: right;
+}
+
+.divider {
+  position: relative;
+  height: 1px;
+}
+
+.div-transparent:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, rgb(48, 49, 51), transparent);
+}
+
+.div-dot:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -9px;
+  left: calc(50% - 9px);
+  width: 18px;
+  height: 18px;
+  background-color: green;
+  border: 1px solid rgb(48, 49, 51);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px white, 0 0 0 4px white;
+}
+
+.pending-dot:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -9px;
+  left: calc(50% - 9px);
+  width: 18px;
+  height: 18px;
+  background-color: orange;
+  border: 1px solid rgb(48, 49, 51);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px white, 0 0 0 4px white;
+}
+
+.modal-header,
+h4,
+.close {
+  background-color: #5cb85c;
+  color: white !important;
+  text-align: center;
+  font-size: 30px;
+  height: 70px;
+}
+
+.modal-footer {
+  background-color: #f9f9f9;
+}
+
+.main {
+  margin-left: 12%;
+  margin-right: 12%;
+  margin-top: 2%;
+  /* Same as the width of the sidenav */
+  font-size: 20px;
+  /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+.rate {
+  float: left;
+  height: 45px;
+  padding: 0 10px;
+}
+
+.rate:not(:checked)>input {
+  position: absolute;
+  top: -9999px;
+}
+
+.rate:not(:checked)>label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+
+.rate:not(:checked)>label:before {
+  content: '★ ';
+}
+
+.rate>input:checked~label {
+  color: #ffc700;
+}
+
+.rate:not(:checked)>label:hover,
+.rate:not(:checked)>label:hover~label {
+  color: #deb217;
+}
+
+.rate>input:checked+label:hover,
+.rate>input:checked+label:hover~label,
+.rate>input:checked~label:hover,
+.rate>input:checked~label:hover~label,
+.rate>label:hover~input:checked~label {
+  color: #c59b08;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+      padding-top: 15px;
+  }
+  .sidenav a {
+      font-size: 18px;
+  }
+}

@@ -5,22 +5,18 @@ const User = require('../models/User');
 const Senior = require('../models/Senior');
 
 router.get('/', ensureAuthenticated, (req, res) => {
-    User.findOne({username : req.username}, (error,user)=>{
+    Senior.findOne({ email: req.user.email }, (error, senior) => {
         if (error)
             return res.redirect('/login?Error=' + encodeURIComponent(error));
-        Senior.findOne({email:user.email}, (error, senior)=>{
-            if (error)
-                return res.redirect('/login?Error=' + encodeURIComponent(error));
-            if(senior)
-                return res.redirect('/senior');
-            return res.render('freshman', { data: 'This is a page for freshman students who are seeking for information!' });
-        }) ;
+        if (senior)
+            return res.redirect('/senior');
+        return res.render('freshman', { data: 'This is a page for freshman students who are seeking for information!' });
     });
 });
 
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/login?Success=' + encodeURIComponent('Successfully Logged out!'));
+    req.logout();
+    res.redirect('/login?Success=' + encodeURIComponent('Successfully Logged out!'));
 });
 
 function ensureAuthenticated(req, res, next) {

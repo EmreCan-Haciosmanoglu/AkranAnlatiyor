@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uri = "mongodb+srv://EmreCan61:1e2m3r4e@akrananlatiyor-17mqx.mongodb.net/test?retryWrites=true&w=majority";
 
 module.exports = () => {
-    mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+    mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 
     mongoose.connection.on('open', () => {
         console.log('MongDB: Connected');

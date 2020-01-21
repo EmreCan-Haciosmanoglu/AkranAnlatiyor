@@ -8,4 +8,59 @@
     {{Success}}
 </div>
 {{/if}}
-{{data}}
+<div class="sidenav">
+    <div class="sidebar text-center">
+        <img src="http://www.agu.edu.tr/userfiles//agulogooo.jpg" style="margin-bottom:40px; width: 50%;">
+        <h3 class="sidenav-proparties"><strong>{{SideNav.FullName}}</strong></h3>
+        <h3 class="sidenav-proparties">{{SideNav.Major}}</h3>
+        <h3 class="sidenav-proparties">{{SideNav.ClientCount}}</h3>
+        <h3 class="sidenav-proparties">{{SideNav.Rating}}</h3>
+    </div>
+</div>
+
+<header id="header">
+    <div class="topnav">
+        <img src="http://www.agu.edu.tr/userfiles/mikrosite_logos/tr_logo.png"
+            style="height: 120px; width: auto; margin-left: 4%; margin-top: 20px; margin-bottom: 20px;">
+        <div class="topnav-right">
+            <div style="height: 160px; width: 100%; display: flex; align-items: center;">
+                {{#each NavBar}}
+                <a {{#if Class}}class="{{Class}}" {{/if}} href="{{Link}}">{{Text}}</a>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="divider div-transparent" , style="margin-top: -20px;"></div>
+    </div>
+
+</header>
+
+<div class="main">
+    <h1 style="text-align: center; margin-top: -45px;">{{Title}}</h1>
+    <div class="divider div-transparent div-dot" , style="margin-top: 20px; margin-bottom: 25px;"></div>
+
+    <table id="example" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                {{#each TableHead}}
+                <th>{{this}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Table}}
+            <tr>
+                {{#each this}}
+                <td>{{this}}</td>
+                {{/each}}
+                <td><button class="cancelMeetingButton">Cancel</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>
+
+<div class="rightColumn">
+
+</div>

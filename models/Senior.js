@@ -24,7 +24,7 @@ const seniorShema = new Schema({
         }
     ],
     rating: {
-        type: String,
+        type: Number,
         default: 0
     }
 });

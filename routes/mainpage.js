@@ -8,7 +8,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
         if (error)
             return res.redirect('/login?Error=' + encodeURIComponent(error));
         if (senior)
-            return res.redirect('/senior');
+            return res.redirect('/senior/active');
         return res.render('freshman', { data: 'This is a page for freshman students who are seeking for information!' });
     });
 });

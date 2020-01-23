@@ -1,23 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', ensureAuthenticated, (req, res, next) => {
+const Senior = require('../models/Senior');
+
+router.get('/active', ensureAuthenticated, (req, res, next) => {
 
     var handlebarsData = {
-        'SideNav': {
-            'FullName': 'Mustafa Kemal Özdemir',
-            'Major': 'Computer Engineering',
-            'ClientCount': '5 Akran',
-            'Rating': '1.5/10'
-        },
         'NavBar': [
             {
                 'Class': 'active',
-                'Link': '/',
+                'Link': '/active',
                 'Text': 'Active Meetings'
             },
             {
-                'Link': '/',
+                'Link': '/active',
                 'Text': 'Pending Meetings'
             },
             {
@@ -47,21 +43,38 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
             'Edit'
         ]
     };
-    var data = [[
-        'Mustafa Kemal Özdemir',
-        'Computer Engineering',
-        'B212 Steel Building',
-        'Life in Kayseri',
-        '02/01 9:15'
-    ],[
-        'Emre Can Hacıosmanoğlu',
-        'Computer Engineering',
-        'BA12',
-        'Life in Kayseri',
-        '10/05 9:15'
-    ]];
-    handlebarsData['Table'] = data;
-    return res.render('senior', handlebarsData);
+
+    Senior.findOne({ email: req.user.email }, (error, senior) => {
+        if (error)
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
+        if (!senior)
+            return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        var sideNav = {
+            'FullName': senior.fullname,
+            'Major': senior.major,
+            'ClientCount': senior.clients.length,
+            'Rating': '' + senior.Rating + '/10'
+        };
+        handlebarsData['SideNav'] = sideNav;
+        
+        var data = [[
+            'Mustafa Kemal Özdemir',
+            'Computer Engineering',
+            'B212 Steel Building',
+            'Life in Kayseri',
+            '02/01 9:15'
+        ], [
+            'Emre Can Hacıosmanoğlu',
+            'Computer Engineering',
+            'BA12',
+            'Life in Kayseri',
+            '10/05 9:15'
+        ]];
+        handlebarsData['Table'] = data;
+
+        return res.render('senior', handlebarsData);
+    });
+
 });
 
 function ensureAuthenticated(req, res, next) {

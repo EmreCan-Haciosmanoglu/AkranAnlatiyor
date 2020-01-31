@@ -25,7 +25,7 @@
         <div class="topnav-right">
             <div style="height: 160px; width: 100%; display: flex; align-items: center;">
                 {{#each NavBar}}
-                <a {{#if Class}}class="{{Class}}" {{/if}} href="{{Link}}">{{Text}}</a>
+                <a {{#if Class}}class="{{Class}}" {{/if}} href="{{Link}}">{{#if Icon}}<i class="{{Icon}}" aria-hidden="true"></i>{{/if}}{{Text}}</a>
                 {{/each}}
             </div>
         </div>

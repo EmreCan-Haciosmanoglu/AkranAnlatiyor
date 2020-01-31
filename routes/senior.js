@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const Senior = require('../models/Senior');
-
+router.get('/', (req,res,next)=>{
+    return res.redirect('/senior/active');
+});
 router.get('/active', ensureAuthenticated, (req, res, next) => {
 
     var handlebarsData = {
@@ -22,15 +24,18 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
             },
             {
                 'Link': '#',
-                'Text': 'Students'
+                'Text': 'Students',
+                'Icon': 'fa fa-users'
             },
             {
                 'Link': '#',
-                'Text': 'Calendar'
+                'Text': 'Calendar',
+                'Icon': 'fa fa-calendar-check-o'
             },
             {
                 'Link': '#',
-                'Text': 'Account'
+                'Text': 'Account',
+                'Icon': 'fa fa-user'
             }
         ],
         'Title': 'Active Meetings',
@@ -53,7 +58,7 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
             'FullName': senior.fullname,
             'Major': senior.major,
             'ClientCount': senior.clients.length,
-            'Rating': '' + senior.Rating + '/10'
+            'Rating': '' + senior.rating + '/10'
         };
         handlebarsData['SideNav'] = sideNav;
         
@@ -76,6 +81,7 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
     });
 
 });
+
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();

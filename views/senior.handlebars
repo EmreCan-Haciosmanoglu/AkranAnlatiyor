@@ -8,6 +8,95 @@
     {{Success}}
 </div>
 {{/if}}
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        padding-top: 100px;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+    }
+
+    .modal-contentCss {
+        position: relative;
+        background-color: #fefefe;
+        text-align: center;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 30%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    /* Add Animation */
+
+    @-webkit-keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    /* The Close Button */
+
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        position: absolute;
+        right: 5px;
+        top: -20px;
+    }
+
+    .close:hover,
+    .close:focus {
+        cursor: pointer;
+    }
+
+    .modal-headerCss {
+        padding: 15px 10px;
+        background-color: #5cb85c;
+        color: black;
+    }
+
+    .modal-bodyCss {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+</style>
 <div class="sidenav">
     <div class="sidebar text-center">
         <img src="http://www.agu.edu.tr/userfiles//agulogooo.jpg" style="margin-bottom:40px; width: 50%;">
@@ -25,7 +114,8 @@
         <div class="topnav-right">
             <div style="height: 160px; width: 100%; display: flex; align-items: center;">
                 {{#each NavBar}}
-                <a {{#if Class}}class="{{Class}}" {{/if}} href="{{Link}}">{{#if Icon}}<i class="{{Icon}}" aria-hidden="true"></i>{{/if}}{{Text}}</a>
+                <a {{#if Class}}class="{{Class}}" {{/if}} href="{{Link}}">{{#if Icon}}<i class="{{Icon}}"
+                        aria-hidden="true"></i>{{/if}}{{Text}}</a>
                 {{/each}}
             </div>
         </div>
@@ -50,17 +140,92 @@
         <tbody>
             {{#each Table}}
             <tr>
-                {{#each this}}
+                {{#each data}}
                 <td>{{this}}</td>
                 {{/each}}
-                <td><button class="cancelMeetingButton">Cancel</button></td>
+                {{#if Cancel}}
+                <td><button class="cancelMeetingButton">{{Cancel}}</button></td>
+                {{/if}}
+                {{#if Accept}}
+                <td><button id="commentBtn" class="commentPendingMeetingButton">{{Accept}}</button></td>
+                {{/if}}
             </tr>
             {{/each}}
         </tbody>
     </table>
 
 </div>
+{{#if Modal}}
+<!-- The Modal -->
+<div id="myModal" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-contentCss">
+        <div class="modal-headerCss">
+            <!-- Tab links <span class="close">&times;</span> -->
+            <h2 style="font-size: 20px; color: white; text-align: center;">Evaluation Form</h2>
+            <button class="close" style="color: white;"><i class="fa fa-times"></i></span>
+        </div>
+        <div class="modal-bodyCss" style="padding:10px 50px;">
+            <p1 style="color: green; font-weight: 500; font-size: 15px;">How was the meeting?</p1>
+
+            <div class="row">
+                <div class="column" style="margin-top: 5px; text-align: center; width: 100%;">
+                    <textarea style="width: 100%;" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -15px;">
+                <div class="column" style="width: 100%;">
+                    <div class="rate" , style="align-self:flex-start;">
+                        <input type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5" title="text">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4" title="text">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="text">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="text">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1" title="text">1 star</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-default pull-right" style="font-size: 17px;">Send <span
+                class="glyphicon glyphicon-ok"></span></button>
+
+    </div>
+</div>
+{{/if}}
 <div class="rightColumn">
 
 </div>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("commentBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+        document.getElementById("defaultOpen").click();
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

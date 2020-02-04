@@ -33,9 +33,17 @@
 
     <script src="/javascripts/tilt/tilt.jquery.min.js"></script>
     <script>
+
         $('.js-tilt').tilt({
             scale: 1.1
         })
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#historyTable').DataTable();
+        });
     </script>
     <script src="/javascripts/main.js"></script>
 </body>

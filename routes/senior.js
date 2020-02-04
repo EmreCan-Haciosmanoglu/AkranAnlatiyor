@@ -28,7 +28,7 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
                 'Icon': 'fa fa-users'
             },
             {
-                'Link': '#',
+                'Link': '/senior/calender',
                 'Text': 'Calendar',
                 'Icon': 'fa fa-calendar-check-o'
             },
@@ -113,7 +113,7 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
                 'Icon': 'fa fa-users'
             },
             {
-                'Link': '#',
+                'Link': '/senior/calender',
                 'Text': 'Calendar',
                 'Icon': 'fa fa-calendar-check-o'
             },
@@ -197,7 +197,7 @@ router.get('/history', ensureAuthenticated, (req, res, next) => {
                 'Icon': 'fa fa-users'
             },
             {
-                'Link': '#',
+                'Link': '/senior/calender',
                 'Text': 'Calendar',
                 'Icon': 'fa fa-calendar-check-o'
             },
@@ -256,6 +256,65 @@ router.get('/history', ensureAuthenticated, (req, res, next) => {
         handlebarsData['Table'] = data;
 
         return res.render('senior', handlebarsData);
+    });
+});
+
+router.get('/calender', ensureAuthenticated, (req,res,next)=>{
+    var handlebarsData = {
+        'NavBar': [
+            {
+                'Link': '/senior/active',
+                'Text': 'Active Meetings'
+            },
+            {
+                'Link': '/senior/pending',
+                'Text': 'Pending Meetings'
+            },
+            {
+                'Link': '/senior/history',
+                'Text': 'Meeting History'
+            },
+            {
+                'Link': '#',
+                'Text': 'Students',
+                'Icon': 'fa fa-users'
+            },
+            {
+                'Link': '/senior/calender',
+                'Text': 'Calendar',
+                'Icon': 'fa fa-calendar-check-o'
+            },
+            {
+                'Link': '#',
+                'Text': 'Account',
+                'Icon': 'fa fa-user'
+            }
+        ],
+        'Title': 'Calender',
+        'TableHead': [
+            'Name',
+            'Department',
+            'Location',
+            'Topic',
+            'Date DD/MM',
+            'Comment'
+        ]
+    };
+    handlebarsData['NavBar'][4]['Class'] = 'active';
+    Senior.findOne({ email: req.user.email }, (error, senior) => {
+        if (error)
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
+        if (!senior)
+            return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        var sideNav = {
+            'FullName': senior.fullname,
+            'Major': senior.major,
+            'ClientCount': senior.clients.length,
+            'Rating': '' + senior.rating + '/10'
+        };
+        handlebarsData['SideNav'] = sideNav;
+
+        return res.render('calender',handlebarsData);
     });
 });
 

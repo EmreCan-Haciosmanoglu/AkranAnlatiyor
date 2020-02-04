@@ -19,8 +19,8 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
                 'Text': 'Pending Meetings'
             },
             {
-                'Link': '#',
-                'Text': 'Pending'
+                'Link': '/senior/history',
+                'Text': 'Meeting History'
             },
             {
                 'Link': '#',
@@ -104,8 +104,8 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
                 'Text': 'Pending Meetings'
             },
             {
-                'Link': '#',
-                'Text': 'Pending'
+                'Link': '/senior/history',
+                'Text': 'Meeting History'
             },
             {
                 'Link': '#',
@@ -168,6 +168,90 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
                     '10/05 9:15'
                 ],
                 'Accept':'Accept'
+            }];
+        handlebarsData['Table'] = data;
+
+        return res.render('senior', handlebarsData);
+    });
+});
+
+router.get('/history', ensureAuthenticated, (req, res, next) => {
+
+    var handlebarsData = {
+        'NavBar': [
+            {
+                'Link': '/senior/active',
+                'Text': 'Active Meetings'
+            },
+            {
+                'Link': '/senior/pending',
+                'Text': 'Pending Meetings'
+            },
+            {
+                'Link': '/senior/history',
+                'Text': 'Meeting History'
+            },
+            {
+                'Link': '#',
+                'Text': 'Students',
+                'Icon': 'fa fa-users'
+            },
+            {
+                'Link': '#',
+                'Text': 'Calendar',
+                'Icon': 'fa fa-calendar-check-o'
+            },
+            {
+                'Link': '#',
+                'Text': 'Account',
+                'Icon': 'fa fa-user'
+            }
+        ],
+        'Title': 'Meeting History',
+        'TableHead': [
+            'Name',
+            'Department',
+            'Location',
+            'Topic',
+            'Date DD/MM',
+            'Comment'
+        ],
+        'Modal':true
+    };
+    handlebarsData['NavBar'][2]['Class'] = 'active';
+    Senior.findOne({ email: req.user.email }, (error, senior) => {
+        if (error)
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
+        if (!senior)
+            return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        var sideNav = {
+            'FullName': senior.fullname,
+            'Major': senior.major,
+            'ClientCount': senior.clients.length,
+            'Rating': '' + senior.rating + '/10'
+        };
+        handlebarsData['SideNav'] = sideNav;
+
+        var data = [
+            {
+                'data': [
+                    'Mustafa Kemal Özdemir',
+                    'Computer Engineering',
+                    'B212 Steel Building',
+                    'Life in Kayseri',
+                    '02/01 9:15'
+                ],
+                'Comment':'Comment'
+            },
+            {
+                'data': [
+                    'Emre Can Hacıosmanoğlu',
+                    'Computer Engineering',
+                    'BA12',
+                    'Life in Kayseri',
+                    '10/05 9:15'
+                ],
+                'Comment':'Comment'
             }];
         handlebarsData['Table'] = data;
 

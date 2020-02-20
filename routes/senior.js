@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Senior = require('../models/Senior');
 const Active = require('../models/Active');
+const Pending = require('../models/Pending');
 
 router.get('/', (req, res, next) => {
     return res.redirect('/senior/active');
@@ -148,30 +149,30 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
         };
         handlebarsData['SideNav'] = sideNav;
 
-        var data = [
-            {
-                'data': [
-                    'Mustafa Kemal Özdemir',
-                    'Computer Engineering',
-                    'B212 Steel Building',
-                    'Life in Kayseri',
-                    '02/01 9:15'
-                ],
-                'Accept': 'Accept'
-            },
-            {
-                'data': [
-                    'Emre Can Hacıosmanoğlu',
-                    'Computer Engineering',
-                    'BA12',
-                    'Life in Kayseri',
-                    '10/05 9:15'
-                ],
-                'Accept': 'Accept'
-            }];
-        handlebarsData['Table'] = data;
 
-        return res.render('senior', handlebarsData);
+        Pending.find({ seniorEmail: senior.email }, (error, pendings) => {
+            if (error)
+                return res.redirect('/login?Error=' + encodeURIComponent(error));
+            if (!pendings)
+                return res.redirect('/login?Error=' + encodeURIComponent('Error'));
+            var data = [];
+            
+            pendings.forEach((pending) => {
+                data.push({
+                    'data': [
+                        pending.freshmanFullname,
+                        pending.freshmanMajor,
+                        pending.place,
+                        pending.topic,
+                        pending.date
+                    ],
+                    'Accept': 'Accept'
+                });
+            });
+
+            handlebarsData['Table'] = data;
+            return res.render('senior', handlebarsData);
+        });
     });
 });
 

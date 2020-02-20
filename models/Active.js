@@ -29,4 +29,4 @@ const activeShema = new Schema({
         required: true
     }
 });
-module.exports = mongoose.model('active', seniorShema);
+module.exports = mongoose.model('active', activeShema);

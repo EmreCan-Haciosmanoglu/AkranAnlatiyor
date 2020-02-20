@@ -4,6 +4,7 @@ const router = express.Router();
 const Senior = require('../models/Senior');
 const Active = require('../models/Active');
 const Pending = require('../models/Pending');
+const History = require('../models/History');
 
 router.get('/', (req, res, next) => {
     return res.redirect('/senior/active');
@@ -71,7 +72,7 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
             if (!actives)
                 return res.redirect('/login?Error=' + encodeURIComponent('Error'));
             var data = [];
-            
+
             actives.forEach((active) => {
                 data.push({
                     'data': [
@@ -86,7 +87,7 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
             });
 
             handlebarsData['Table'] = data;
-    
+
             return res.render('senior', handlebarsData);
         });
     });
@@ -149,14 +150,13 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
         };
         handlebarsData['SideNav'] = sideNav;
 
-
         Pending.find({ seniorEmail: senior.email }, (error, pendings) => {
             if (error)
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
             if (!pendings)
                 return res.redirect('/login?Error=' + encodeURIComponent('Error'));
             var data = [];
-            
+
             pendings.forEach((pending) => {
                 data.push({
                     'data': [
@@ -233,30 +233,29 @@ router.get('/history', ensureAuthenticated, (req, res, next) => {
         };
         handlebarsData['SideNav'] = sideNav;
 
-        var data = [
-            {
-                'data': [
-                    'Mustafa Kemal Özdemir',
-                    'Computer Engineering',
-                    'B212 Steel Building',
-                    'Life in Kayseri',
-                    '02/01 9:15'
-                ],
-                'Comment': 'Comment'
-            },
-            {
-                'data': [
-                    'Emre Can Hacıosmanoğlu',
-                    'Computer Engineering',
-                    'BA12',
-                    'Life in Kayseri',
-                    '10/05 9:15'
-                ],
-                'Comment': 'Comment'
-            }];
-        handlebarsData['Table'] = data;
+        History.find({ seniorEmail: senior.email }, (error, histories) => {
+            if (error)
+                return res.redirect('/login?Error=' + encodeURIComponent(error));
+            if (!histories)
+                return res.redirect('/login?Error=' + encodeURIComponent('Error'));
+            var data = [];
 
-        return res.render('senior', handlebarsData);
+            histories.forEach((history) => {
+                data.push({
+                    'data': [
+                        history.freshmanFullname,
+                        history.freshmanMajor,
+                        history.place,
+                        history.topic,
+                        history.date
+                    ],
+                    'Comment': 'Comment'
+                });
+            });
+
+            handlebarsData['Table'] = data;
+            return res.render('senior', handlebarsData);
+        });
     });
 });
 

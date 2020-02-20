@@ -12,6 +12,10 @@ const activeShema = new Schema({
         required: true,
         unique: true
     },
+    freshmanFullname: {
+        type: String,
+        required: true
+    },
     freshmanMajor: {
         type: String,
         required: true

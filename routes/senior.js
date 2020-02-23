@@ -55,10 +55,14 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
     };
     handlebarsData['NavBar'][0]['Class'] = 'active';
     Senior.findOne({ email: req.user.email }, (error, senior) => {
-        if (error)
+        if (error) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent(error));
-        if (!senior)
+        }
+        if (!senior) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        }
         var sideNav = {
             'FullName': senior.fullname,
             'Major': senior.major,
@@ -68,10 +72,14 @@ router.get('/active', ensureAuthenticated, (req, res, next) => {
         handlebarsData['SideNav'] = sideNav;
 
         Active.find({ seniorEmail: senior.email }, (error, actives) => {
-            if (error)
+            if (error) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
-            if (!actives)
+            }
+            if (!actives) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent('Error'));
+            }
             var data = [];
 
             actives.forEach((active) => {
@@ -139,10 +147,14 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
     };
     handlebarsData['NavBar'][1]['Class'] = 'active';
     Senior.findOne({ email: req.user.email }, (error, senior) => {
-        if (error)
+        if (error) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent(error));
-        if (!senior)
+        }
+        if (!senior) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        }
         var sideNav = {
             'FullName': senior.fullname,
             'Major': senior.major,
@@ -152,10 +164,14 @@ router.get('/pending', ensureAuthenticated, (req, res, next) => {
         handlebarsData['SideNav'] = sideNav;
 
         Pending.find({ seniorEmail: senior.email }, (error, pendings) => {
-            if (error)
+            if (error) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
-            if (!pendings)
+            }
+            if (!pendings) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent('Error'));
+            }
             var data = [];
 
             pendings.forEach((pending) => {
@@ -222,10 +238,14 @@ router.get('/history', ensureAuthenticated, (req, res, next) => {
     };
     handlebarsData['NavBar'][2]['Class'] = 'active';
     Senior.findOne({ email: req.user.email }, (error, senior) => {
-        if (error)
+        if (error) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent(error));
-        if (!senior)
+        }
+        if (!senior) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        }
         var sideNav = {
             'FullName': senior.fullname,
             'Major': senior.major,
@@ -235,10 +255,14 @@ router.get('/history', ensureAuthenticated, (req, res, next) => {
         handlebarsData['SideNav'] = sideNav;
 
         History.find({ seniorEmail: senior.email }, (error, histories) => {
-            if (error)
+            if (error) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
-            if (!histories)
+            }
+            if (!histories) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent('Error'));
+            }
             var data = [];
 
             histories.forEach((history) => {
@@ -303,10 +327,14 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
     };
     handlebarsData['NavBar'][4]['Class'] = 'active';
     Senior.findOne({ email: req.user.email }, (error, senior) => {
-        if (error)
+        if (error) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent(error));
-        if (!senior)
+        }
+        if (!senior) {
+            req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        }
         var sideNav = {
             'FullName': senior.fullname,
             'Major': senior.major,
@@ -316,10 +344,14 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
         handlebarsData['SideNav'] = sideNav;
 
         Calender.findOne({ email: senior.email }, (error, calender) => {
-            if (error)
+            if (error) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
-            if (!calender)
+            }
+            if (!calender) {
+                req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent('Unfilled Calender!'));
+            }
 
             handlebarsData['Calender'] = calender.hours;
 

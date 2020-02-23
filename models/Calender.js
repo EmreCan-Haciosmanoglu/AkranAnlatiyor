@@ -7,12 +7,17 @@ const calenderShema = new Schema({
         required: true,
         unique: true
     },
-    hours:[
+    hours: [
         {
-            days:[
+            hour: {
+                type: String,
+                required: true,
+                unique: true
+            },
+            days: [
                 {
-                    type:Number,
-                    required:true
+                    type: Number,
+                    required: true
                 }
             ]
         }

@@ -7,8 +7,17 @@ const Pending = require('../models/Pending');
 const History = require('../models/History');
 const Calender = require('../models/Calender');
 
-router.get('/', (req, res, next) => {
-    return res.redirect('/senior/active');
+router.get('/', ensureAuthenticated, (req, res, next) => {
+    Calender.findOne({ email: req.user.email }, (error, calender) => {
+        if (error) {
+            req.logOut();
+            return res.redirect('/login?Error=' + encodeURIComponent(error));
+        }
+        if (calender)
+            return res.redirect('/senior/active');
+
+        return res.render('createCalender');
+    });
 });
 
 router.get('/active', ensureAuthenticated, (req, res, next) => {
@@ -352,28 +361,14 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
                 req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent('Unfilled Calender!'));
             }
-
+            console.table(calender.hours[0].days)
             handlebarsData['Calender'] = calender.hours;
+            handlebarsData['Days'] = calender.days;
 
             return res.render('calender', handlebarsData);
         });
     });
 });
-
-router.get('/add', (req, res, next) => {
-    const senior = new Senior({
-        email: 'emre.can.haciosmanoglu@hotmail.com',
-        fullname: 'Emre Can Hacıosmanoğlu',
-        major: 'Computer Engineering',
-        clients: [
-            { email: 'x@x.com' },
-            { email: 'x@x.com' }
-        ],
-        rating: 10
-    });
-    senior.save().then((data) => res.redirect('/senior/active'))
-});
-
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;

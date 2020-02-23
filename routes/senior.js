@@ -5,6 +5,7 @@ const Senior = require('../models/Senior');
 const Active = require('../models/Active');
 const Pending = require('../models/Pending');
 const History = require('../models/History');
+const Calender = require('../models/Calender');
 
 router.get('/', (req, res, next) => {
     return res.redirect('/senior/active');
@@ -314,7 +315,16 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
         };
         handlebarsData['SideNav'] = sideNav;
 
-        return res.render('calender', handlebarsData);
+        Calender.findOne({ email: senior.email }, (error, calender) => {
+            if (error)
+                return res.redirect('/login?Error=' + encodeURIComponent(error));
+            if (!calender)
+                return res.redirect('/login?Error=' + encodeURIComponent('Unfilled Calender!'));
+
+            handlebarsData['Calender'] = calender.hours;
+
+            return res.render('calender', handlebarsData);
+        });
     });
 });
 

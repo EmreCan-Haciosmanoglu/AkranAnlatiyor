@@ -7,6 +7,13 @@ const calenderShema = new Schema({
         required: true,
         unique: true
     },
+    days: [
+        {
+            type: String,
+            required: true,
+            unique: true
+        }
+    ],
     hours: [
         {
             hour: {
@@ -16,8 +23,10 @@ const calenderShema = new Schema({
             },
             days: [
                 {
-                    type: Number,
-                    required: true
+                    value: {
+                        type: Number,
+                        required: true
+                    }
                 }
             ]
         }

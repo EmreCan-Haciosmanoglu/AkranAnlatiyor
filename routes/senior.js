@@ -8,15 +8,85 @@ const History = require('../models/History');
 const Calender = require('../models/Calender');
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
-    Calender.findOne({ email: req.user.email }, (error, calender) => {
+    Senior.findOne({ email: req.user.email }, (error, senior) => {
         if (error) {
             req.logOut();
             return res.redirect('/login?Error=' + encodeURIComponent(error));
         }
-        if (calender)
-            return res.redirect('/senior/active');
+        if (!senior) {
+            req.logOut();
+            return res.redirect('/login?Error=' + encodeURIComponent('Unauthorized access!'));
+        }
+        Calender.findOne({ email: senior.email }, (error, calender) => {
+            if (error) {
+                req.logOut();
+                return res.redirect('/login?Error=' + encodeURIComponent(error));
+            }
+            if (calender)
+                return res.redirect('/senior/active');
 
-        return res.render('createCalender');
+            const calender = new Calender({
+                email: senior.email,
+                days: [
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday'
+                ],
+                hours: [
+                    {
+                        hour: '08:00 - 09:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '09:00 - 10:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '10:00 - 11:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '11:00 - 12:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '12:00 - 13:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '13:00 - 14:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '14:00 - 15:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '15:00 - 16:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '16:00 - 17:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '17:00 - 18:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '18:00 - 19:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    },
+                    {
+                        hour: '19:00 - 20:00',
+                        days: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+                    }
+                ]
+            });
+            calender.save().then((data) => res.redirect('/senior/active'))
+        });
     });
 });
 
@@ -369,6 +439,57 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
         });
     });
 });
+
+router.get('/add', (req, res, next) => {
+    const senior = new Senior({
+        email: 'emre.can.haciosmanoglu@hotmail.com',
+        fullname: 'Emre Can Hacıosmanoğlu',
+        major: 'Computer Engineering',
+        clients: [
+            { email: 'x@x.com' },
+            { email: 'x@x.com' }
+        ],
+        rating: 10
+    });
+    senior.save().then((data) => res.redirect('/senior/active'))
+});
+
+router.get('/addCalender', (req, res, next) => {
+    const calender = new Calender({
+        email: 'emre.can.haciosmanoglu@hotmail.com',
+        days: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday'
+        ],
+        hours: [
+            {
+                hour: '9:00',
+                days: [
+                    {
+                        value: 0
+                    },
+                    {
+                        value: 0
+                    },
+                    {
+                        value: 0
+                    },
+                    {
+                        value: 0
+                    },
+                    {
+                        value: 0
+                    }
+                ]
+            }
+        ]
+    });
+    calender.save().then((data) => res.redirect('/senior/active'))
+});
+
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;

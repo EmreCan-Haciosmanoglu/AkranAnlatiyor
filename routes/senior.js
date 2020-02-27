@@ -25,7 +25,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
             if (calender)
                 return res.redirect('/senior/active');
 
-            const calender = new Calender({
+            const cal = new Calender({
                 email: senior.email,
                 days: [
                     'Monday',
@@ -85,7 +85,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
                     }
                 ]
             });
-            calender.save().then((data) => res.redirect('/senior/active'))
+            cal.save().then((data) => res.redirect('/senior/active'))
         });
     });
 });
@@ -452,42 +452,6 @@ router.get('/add', (req, res, next) => {
         rating: 10
     });
     senior.save().then((data) => res.redirect('/senior/active'))
-});
-
-router.get('/addCalender', (req, res, next) => {
-    const calender = new Calender({
-        email: 'emre.can.haciosmanoglu@hotmail.com',
-        days: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday'
-        ],
-        hours: [
-            {
-                hour: '9:00',
-                days: [
-                    {
-                        value: 0
-                    },
-                    {
-                        value: 0
-                    },
-                    {
-                        value: 0
-                    },
-                    {
-                        value: 0
-                    },
-                    {
-                        value: 0
-                    }
-                ]
-            }
-        ]
-    });
-    calender.save().then((data) => res.redirect('/senior/active'))
 });
 
 function ensureAuthenticated(req, res, next) {

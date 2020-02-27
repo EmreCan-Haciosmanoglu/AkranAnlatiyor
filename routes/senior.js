@@ -85,7 +85,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
                     }
                 ]
             });
-            cal.save().then((data) => res.redirect('/senior/active'))
+            cal.save().then((data) => res.redirect('/senior/active'));
         });
     });
 });
@@ -427,10 +427,9 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
                 req.logOut();
                 return res.redirect('/login?Error=' + encodeURIComponent(error));
             }
-            if (!calender) {
-                req.logOut();
-                return res.redirect('/login?Error=' + encodeURIComponent('Unfilled Calender!'));
-            }
+            if (!calender)
+                return res.redirect('/senior');
+            
             console.table(calender.hours[0].days)
             handlebarsData['Calender'] = calender.hours;
             handlebarsData['Days'] = calender.days;

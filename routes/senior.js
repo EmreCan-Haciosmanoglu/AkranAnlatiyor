@@ -430,27 +430,12 @@ router.get('/calender', ensureAuthenticated, (req, res, next) => {
             if (!calender)
                 return res.redirect('/senior');
             
-            console.table(calender.hours[0].days)
             handlebarsData['Calender'] = calender.hours;
             handlebarsData['Days'] = calender.days;
 
             return res.render('calender', handlebarsData);
         });
     });
-});
-
-router.get('/add', (req, res, next) => {
-    const senior = new Senior({
-        email: 'emre.can.haciosmanoglu@hotmail.com',
-        fullname: 'Emre Can Hacıosmanoğlu',
-        major: 'Computer Engineering',
-        clients: [
-            { email: 'x@x.com' },
-            { email: 'x@x.com' }
-        ],
-        rating: 10
-    });
-    senior.save().then((data) => res.redirect('/senior/active'))
 });
 
 function ensureAuthenticated(req, res, next) {

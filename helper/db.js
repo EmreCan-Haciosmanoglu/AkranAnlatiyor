@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const uri = "mongodb+srv://EmreCan61:1e2m3r4e@akrananlatiyor-17mqx.mongodb.net/test?retryWrites=true&w=majority";
+const Uri = require('./../private/Database');
 
 module.exports = () => {
-    mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
+    mongoose.connect(Uri.uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 
     mongoose.connection.on('open', () => {
         console.log('MongDB: Connected');

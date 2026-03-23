@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const exphbs = require('express-handlebars');
+const { create } = require('express-handlebars');
 const session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -17,9 +17,15 @@ var registerRouter = require('./routes/register');
 
 var app = express();
 
+const exphbs = create({
+    helpers: {
+        or: (a, b) => a || b,
+        and(a, b) { return a && b; },
+    }
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 
 app.use(logger('dev'));

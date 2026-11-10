@@ -15,7 +15,7 @@
     "express-session": "^1.19.0",
     "express-validator": "^6.15.0",
     "http-errors": "^1.6.3",
-    "mongoose": "^9.10.2",
+    "mongoose": "^9.11.4",
     "morgan": "^1.12.1",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
